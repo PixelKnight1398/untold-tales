@@ -346,7 +346,58 @@
 					</div>
 					
 					<div id = "timerEditor">
+						<span>Time Interval:</span><br />
+						<input type = "number" placeholder = "Time Interval" id = "timerIntervalEdit"></input><br />
 						
+						<span>Function:</span><br />
+						<select id = "timerFunctionEdit" onchange = "changeTimerFunctionTier2(true)">
+							<option value = "">Select Function...</option>
+							<option value = "output">Output Message</option>
+							<option value = "player">Player Interaction</option>
+							<option value = "object">Object Interaction</option>
+							<option value = "room">Room Interaction</option>
+						</select>
+						<div id = "timerFunctionTier2Edit">
+							<div id = "timerFunctionOutputDetailsEdit" class = "tier2TimerDetails">
+								<span>Timer Function Output Message:</span><br />
+								<input type = "text" placeholder = "Output Message" id = "tFuncOutputMessInput"></input><br />
+							</div>
+							<div id = "timerFunctionPlayerDetailsEdit" class = "tier2TimerDetails">
+								<span>Change Player Health:</span><br />
+								<input type = "number" value = "0" id = "changePlayerHealthFunctionValueEdit" onkeydown = "checkChangeValues(this.id, true)" onchange = "checkChangeValues(this.id, true)"></input><br /><br />
+								<span>Change Player Magic:</span><br />
+								<input type = "number" value = "0" id = "changePlayerMagicFunctionValueEdit" onkeydown = "checkChangeValues(this.id, true)" onchange = "checkChangeValues(this.id, true)"></input><br /><br />
+								<span>Change Player Stamina:</span><br />
+								<input type = "number" value = "0" id = "changePlayerStaminaFunctionValueEdit" onkeydown = "checkChangeValues(this.id, true)" onchange = "checkChangeValues(this.id, true)"></input><br /><br />
+							</div>
+							<div id = "timerFunctionObjectDetailsEdit" class = "tier2TimerDetails">
+								<select id = "objectTimerFunctionEdit" onchange = "changeObjectTimerFunctionDetails(true)">
+									<option value = "">Select Object Effect...</option>
+									<option value = "addObject">Add Object to Player Inventory</option>
+									<option value = "destroyObject">Destroy Object</option>
+									<option value = "cloneObject">Clone Object</option>
+								</select>
+								<select id = "objectSelectorEdit">
+									
+								</select>
+							</div>
+							<div id = "timerFunctionRoomDetailsEdit" class = "tier2TimerDetails">
+								<select id = "roomTimerFunctionEdit" onchange = "changeRoomFunction(true)">
+									<option value = "">Select Room Effect...</option>
+									<option value = "directionChange">Player to new room</option>
+								</select>
+								<select id = "directionChangeDestinationSelectEdit">
+									
+								</select>
+							</div>
+						</div>
+						
+						<span>Repeat Limit:</span><br />
+						<input type = "number" placeholder = "Repeat Limit" id = "timerRepeatEdit"></input><br />
+						
+						<br />
+						<input type = "button" value = "Update" onclick = "saveTimerChanges()"></input>
+						<input type = "button" value = "Cancel" onclick = "cancelTimerChanges()"
 					</div>
 					
 				</div>

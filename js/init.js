@@ -1,5 +1,7 @@
 var currentRoomEditing;
 var currentObjectEditing;
+var currentTimerEditing;
+var currentNPCEditing;
 
 var createNew = function(){
 	var startButtons = document.getElementsByClassName("startButton");
@@ -45,6 +47,7 @@ var closeDialogues = function(){
 	document.getElementById("playerEditor").style.display = "none";
 	document.getElementById("roomCreator").style.display = "none";
 	document.getElementById("timerCreator").style.display = "none";
+	document.getElementById("timerEditor").style.display = "none";
 }
 
 var toggleRoomCreator = function(){
@@ -115,8 +118,11 @@ var rebuildManager = function(){
 				for(var j = 0; j < dungeon.rooms[i].objects.length; j++){
 					temp += "<li id = 'object_" + dungeon.rooms[i].objects[j].zid + "' onclick = 'toggleObjectDetails(" + dungeon.rooms[i].objects[j].zid + ")'>" + dungeon.rooms[i].objects[j].name + "</li>";
 				}
-				temp += "<li onclick = 'toggleObjectCreator()'>+ Add Object</li>\
-				<li onclick = 'toggleTimerCreator()'>+ Add timer</li>\
+				temp += "<li onclick = 'toggleObjectCreator()'>+ Add Object</li>";
+				for(j = 0; j < dungeon.rooms[i].timers.length; j++){
+					temp += "<li id = 'timer_" + dungeon.rooms[i].timers[j].zid + "' onclick = 'toggleTimerEditor(" + dungeon.rooms[i].timers[j].zid + ")'>timer_" + dungeon.rooms[i].timers[j].functionType + "</li>";
+				}
+				temp += "<li onclick = 'toggleTimerCreator()'>+ Add timer</li>\
 			</ul>\
 		</li>";
 		z.innerHTML += temp;
@@ -326,99 +332,228 @@ var toggleTimerCreator = function(){
 	document.getElementById("timerCreator").style.display = "block";
 }
 
-var changeTimerFunctionTier2 = function(){
-	document.getElementById("timerFunctionOutputDetails").style.display = "none";
-	document.getElementById("timerFunctionPlayerDetails").style.display = "none";
-	document.getElementById("timerFunctionObjectDetails").style.display = "none";
-	document.getElementById("timerFunctionRoomDetails").style.display = "none";
-	switch(document.getElementById("timerFunctionCreate").value){
-		case "output":
-			document.getElementById("timerFunctionOutputDetails").style.display = "block";
-		break;
-		case "player":
-			document.getElementById("timerFunctionPlayerDetails").style.display = "block";
-		break;
-		case "object":
-			document.getElementById("timerFunctionObjectDetails").style.display = "block";
-		break;
-		case "room":
-			document.getElementById("timerFunctionRoomDetails").style.display = "block";
-		break;
-		default:
-			//do nothing
-		break;
-	}
-}
-
-var checkChangeValues = function(w){
-	var x = document.getElementById("changePlayerHealthFunctionValue").value;
-	var y = document.getElementById("changePlayerMagicFunctionValue").value;
-	var z = document.getElementById("changePlayerStaminaFunctionValue").value;
-	var u = 0;
-	if(x != "0"){
-		u++;
-	}
-	if(y != "0"){
-		u++;
-	}
-	if(z != "0"){
-		u++;
-	}
-	if(u > 1){
-		if(w != "changePlayerHealthFunctionValue"){
-			document.getElementById("changePlayerHealthFunctionValue").value = "0";
-		}
-		if(w != "changePlayerMagicFunctionValue"){
-			document.getElementById("changePlayerMagicFunctionValue").value = "0";
-		}
-		if(w != "changePlayerStaminaFunctionValue"){
-			document.getElementById("changePlayerStaminaFunctionValue").value = "0";
+var toggleTimerEditor = function(x){
+	currentTimerEditing = x;
+	closeDialogues();
+	document.getElementById("timerEditor").style.display = "block";
+	for(var i = 0; i < dungeon.rooms[getRoomIndex()].timers.length; i++){
+		if(dungeon.rooms[getRoomIndex()].timers[i].zid == x){
+			document.getElementById("timerIntervalEdit").value = dungeon.rooms[getRoomIndex()].timers[i].intervalGap;
+			document.getElementById("timerRepeatEdit").value = dungeon.rooms[getRoomIndex()].timers[i].timerLimit;
+			switch(dungeon.rooms[getRoomIndex()].timers[i].functionType){
+				case "output":
+					document.getElementById("timerFunctionEdit").selectedIndex = 1;
+				break;
+				case "player":
+					document.getElementById("timerFunctionEdit").selectedIndex = 2;
+				break;
+				case "object":
+					document.getElementById("timerFunctionEdit").selectedIndex = 3;
+				break;
+				case "room":
+					document.getElementById("timerFunctionEdit").selectedIndex = 4;
+				break;
+				default:
+					//do nothing
+				break;
+			}
 		}
 	}
 }
 
-var changeObjectTimerFunctionDetails = function(){
-	var x = document.getElementById("objectTimerFunction").value;
-	switch(x){
-		case "":
-			//document.getElementById("").style.display = "none";
-		break;
-		default:
-			//document.getElementById("").style.display = "block";
-			document.getElementById("objectSelector").innerHTML = "";
-			if(dungeon.rooms[getRoomIndex()].objects.length < 1){
-				document.getElementById("objectSelector").innerHTML = "<option value = ''>No objects in room</option>";
-			}
-			else{
-				document.getElementById("objectSelector").innerHTML = "<option value = ''>Select an object</option>";
-			}
-			for(var i = 0; i < dungeon.rooms[getRoomIndex()].objects.length; i++){
-				document.getElementById("objectSelector").innerHTML += "<option value = '" + dungeon.rooms[getRoomIndex()].objects[i].zid + "'>" + dungeon.rooms[getRoomIndex()].objects[i].name + "</option>";
-			}
-		break;
+var changeTimerFunctionTier2 = function(x){
+	if(x){
+		document.getElementById("timerFunctionOutputDetailsEdit").style.display = "none";
+		document.getElementById("timerFunctionPlayerDetailsEdit").style.display = "none";
+		document.getElementById("timerFunctionObjectDetailsEdit").style.display = "none";
+		document.getElementById("timerFunctionRoomDetailsEdit").style.display = "none";
+		switch(document.getElementById("timerFunctionEdit").value){
+			case "output":
+				document.getElementById("timerFunctionOutputDetailsEdit").style.display = "block";
+			break;
+			case "player":
+				document.getElementById("timerFunctionPlayerDetailsEdit").style.display = "block";
+			break;
+			case "object":
+				document.getElementById("timerFunctionObjectDetailsEdit").style.display = "block";
+			break;
+			case "room":
+				document.getElementById("timerFunctionRoomDetailsEdit").style.display = "block";
+			break;
+			default:
+				//do nothing
+			break;
+		}
+	}
+	else{
+		document.getElementById("timerFunctionOutputDetails").style.display = "none";
+		document.getElementById("timerFunctionPlayerDetails").style.display = "none";
+		document.getElementById("timerFunctionObjectDetails").style.display = "none";
+		document.getElementById("timerFunctionRoomDetails").style.display = "none";
+		switch(document.getElementById("timerFunctionCreate").value){
+			case "output":
+				document.getElementById("timerFunctionOutputDetails").style.display = "block";
+			break;
+			case "player":
+				document.getElementById("timerFunctionPlayerDetails").style.display = "block";
+			break;
+			case "object":
+				document.getElementById("timerFunctionObjectDetails").style.display = "block";
+			break;
+			case "room":
+				document.getElementById("timerFunctionRoomDetails").style.display = "block";
+			break;
+			default:
+				//do nothing
+			break;
+		}
 	}
 }
 
-var changeRoomFunction = function(){
-	var x = document.getElementById("roomTimerFunction").value;
-	switch(x){
-		case "":
-		
-		break;
-		case "directionChange":
-			document.getElementById("directionChangeDestinationSelect").innerHTML = "";
-			if(dungeon.rooms.length < 2){
-				document.getElementById("directionChangeDestinationSelect").innerHTML += "<option value = ''>No more rooms</option>";
+var checkChangeValues = function(w, x){
+	if(x){
+		var x = document.getElementById("changePlayerHealthFunctionValueEdit").value;
+		var y = document.getElementById("changePlayerMagicFunctionValueEdit").value;
+		var z = document.getElementById("changePlayerStaminaFunctionValueEdit").value;
+		var u = 0;
+		if(x != "0"){
+			u++;
+		}
+		if(y != "0"){
+			u++;
+		}
+		if(z != "0"){
+			u++;
+		}
+		if(u > 1){
+			if(w != "changePlayerHealthFunctionValueEdit"){
+				document.getElementById("changePlayerHealthFunctionValue").value = "0";
 			}
-			else{
-				document.getElementById("directionChangeDestinationSelect").innerHTML += "Please select a destination";
+			if(w != "changePlayerMagicFunctionValueEdit"){
+				document.getElementById("changePlayerMagicFunctionValue").value = "0";
 			}
-			for(var i = 0; i < dungeon.rooms.length; i++){
-				if(i != getRoomIndex()){
-					document.getElementById("directionChangeDestinationSelect").innerHTML += "<option value = '" + dungeon.rooms[i].zid + "'>" + dungeon.rooms[i].name + "</option>";
+			if(w != "changePlayerStaminaFunctionValueEdit"){
+				document.getElementById("changePlayerStaminaFunctionValue").value = "0";
+			}
+		}
+	}
+	else{
+		var x = document.getElementById("changePlayerHealthFunctionValue").value;
+		var y = document.getElementById("changePlayerMagicFunctionValue").value;
+		var z = document.getElementById("changePlayerStaminaFunctionValue").value;
+		var u = 0;
+		if(x != "0"){
+			u++;
+		}
+		if(y != "0"){
+			u++;
+		}
+		if(z != "0"){
+			u++;
+		}
+		if(u > 1){
+			if(w != "changePlayerHealthFunctionValue"){
+				document.getElementById("changePlayerHealthFunctionValue").value = "0";
+			}
+			if(w != "changePlayerMagicFunctionValue"){
+				document.getElementById("changePlayerMagicFunctionValue").value = "0";
+			}
+			if(w != "changePlayerStaminaFunctionValue"){
+				document.getElementById("changePlayerStaminaFunctionValue").value = "0";
+			}
+		}
+	}
+}
+
+var changeObjectTimerFunctionDetails = function(y){
+	if(y){
+		var x = document.getElementById("objectTimerFunctionEdit").value;
+		switch(x){
+			case "":
+				//document.getElementById("").style.display = "none";
+			break;
+			default:
+				//document.getElementById("").style.display = "block";
+				document.getElementById("objectSelector").innerHTML = "";
+				if(dungeon.rooms[getRoomIndex()].objects.length < 1){
+					document.getElementById("objectSelector").innerHTML = "<option value = ''>No objects in room</option>";
 				}
-			}
-		break;
+				else{
+					document.getElementById("objectSelector").innerHTML = "<option value = ''>Select an object</option>";
+				}
+				for(var i = 0; i < dungeon.rooms[getRoomIndex()].objects.length; i++){
+					document.getElementById("objectSelector").innerHTML += "<option value = '" + dungeon.rooms[getRoomIndex()].objects[i].zid + "'>" + dungeon.rooms[getRoomIndex()].objects[i].name + "</option>";
+				}
+			break;
+		}
+	}
+	else{
+		var x = document.getElementById("objectTimerFunction").value;
+		switch(x){
+			case "":
+				//document.getElementById("").style.display = "none";
+			break;
+			default:
+				//document.getElementById("").style.display = "block";
+				document.getElementById("objectSelector").innerHTML = "";
+				if(dungeon.rooms[getRoomIndex()].objects.length < 1){
+					document.getElementById("objectSelector").innerHTML = "<option value = ''>No objects in room</option>";
+				}
+				else{
+					document.getElementById("objectSelector").innerHTML = "<option value = ''>Select an object</option>";
+				}
+				for(var i = 0; i < dungeon.rooms[getRoomIndex()].objects.length; i++){
+					document.getElementById("objectSelector").innerHTML += "<option value = '" + dungeon.rooms[getRoomIndex()].objects[i].zid + "'>" + dungeon.rooms[getRoomIndex()].objects[i].name + "</option>";
+				}
+			break;
+		}
+	}
+}
+
+var changeRoomFunction = function(y){
+	if(y){
+		var x = document.getElementById("roomTimerFunctionEdit").value;
+		switch(x){
+			case "":
+			
+			break;
+			case "directionChange":
+				document.getElementById("directionChangeDestinationSelectEdit").innerHTML = "";
+				if(dungeon.rooms.length < 2){
+					document.getElementById("directionChangeDestinationSelectEdit").innerHTML += "<option value = ''>No more rooms</option>";
+				}
+				else{
+					document.getElementById("directionChangeDestinationSelectEdit").innerHTML += "Please select a destination";
+				}
+				for(var i = 0; i < dungeon.rooms.length; i++){
+					if(i != getRoomIndex()){
+						document.getElementById("directionChangeDestinationSelectEdit").innerHTML += "<option value = '" + dungeon.rooms[i].zid + "'>" + dungeon.rooms[i].name + "</option>";
+					}
+				}
+			break;
+		}
+	}
+	else{
+		var x = document.getElementById("roomTimerFunction").value;
+		switch(x){
+			case "":
+			
+			break;
+			case "directionChange":
+				document.getElementById("directionChangeDestinationSelect").innerHTML = "";
+				if(dungeon.rooms.length < 2){
+					document.getElementById("directionChangeDestinationSelect").innerHTML += "<option value = ''>No more rooms</option>";
+				}
+				else{
+					document.getElementById("directionChangeDestinationSelect").innerHTML += "Please select a destination";
+				}
+				for(var i = 0; i < dungeon.rooms.length; i++){
+					if(i != getRoomIndex()){
+						document.getElementById("directionChangeDestinationSelect").innerHTML += "<option value = '" + dungeon.rooms[i].zid + "'>" + dungeon.rooms[i].name + "</option>";
+					}
+				}
+			break;
+		}
 	}
 }
 

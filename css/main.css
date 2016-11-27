@@ -322,6 +322,10 @@ li{
 	display: none;
 }
 
+#timerEditor{
+	display: none;
+}
+
 /*Copied stuff from the internet to create basic help tip*/
 
 /*Thank you http://tutorialzine.com/2014/07/css-inline-help-tips/*/

@@ -10,6 +10,7 @@ function room_c (n, d){
 	this.objects = [];
 	
 	this.timers = [];
+	this.activeTimers = [];
 	
 	this.visibleObjectTextDisplay = true;
 	
