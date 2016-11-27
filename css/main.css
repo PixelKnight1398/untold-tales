@@ -1,0 +1,409 @@
+body{
+	background-color: white;
+	color: rgb(100, 100, 100);
+}
+
+#heading{
+	text-align: center;
+	width: 100%;
+	height: 50px;
+}
+
+#options{
+	width: 100%;
+	height: 0;
+	position: relative;
+}
+
+#saveButton{
+	position: absolute;
+	top: -40px;
+	left: 90%;
+	cursor: pointer;
+	display: none;
+}
+
+#runButton{
+	position: absolute;
+	top: -40px;
+	left: 80%;
+	cursor: pointer;
+	display: none;
+}
+
+#devButton{
+	position: absolute;
+	top: -40px;
+	left: 71%;
+	cursor: pointer;
+	display: none;
+}
+
+h2{
+	margin: 5px;
+}
+
+h4{
+	margin: 5px;
+	color: rgb(140, 140, 140);
+}
+
+#workspace{
+	height: 500px;
+	width: 100%;
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+#startActivity{
+	height: 70%;
+	width: 50%;
+	position: absolute;
+	top: 20%;
+	left: 25%;
+	background-color: rgb(240, 240, 240);
+	border-radius: 7px;
+	box-shadow: 2px 2px 20px gray;
+}
+
+.startButton{
+	height: 50%;
+	width: 25%;
+	background-color: rgb(230, 230, 230);
+	border-radius: 7px;
+	box-shadow: 2px 2px 20px gray;
+	display: inline-block;
+	margin: 12.25%;
+	cursor: pointer;
+	color: rgb(140, 140, 140);
+	animation-name: startButtonNotHover;
+	animation-duration: 1s;
+}
+
+@keyframes startButtonNotHover{
+	from{background-color: rgb(190, 190, 190);}
+	to{background-color: rgb(230, 230, 230);}
+}
+
+@keyframes startButtonHover{
+	from{background-color: rgb(230, 230, 230);}
+	to{background-color: rgb(190, 190, 190);}
+}
+
+.startButton:hover{
+	box-shadow: 4px 4px 20px gray;
+	background-color: rgb(190, 190, 190);
+	animation-name: startButtonHover;
+	animation-duration: 1s;
+}
+
+
+.startIconText{
+	font-size: 24px;
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+
+.startIcons{
+	font-size: 115px;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	height: 100%;
+}
+
+.startIcons:hover{
+	color: rgb(255, 255, 255);
+}
+
+#createNewProjectForm{
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	font-size: 24px;
+	display: none;
+}
+
+#createProjectTable{
+	text-align: center;
+	width: 100%;
+}
+
+#builderActivity{
+	height: 100%;
+	width: 100%;
+	box-shadow: inset 0px 0px 15px gray;
+	position: relative;
+	top: 0;
+	left: 0;
+	display: none;
+}
+
+#runActivity{
+	height: 100%;
+	width: 100%;
+	box-shadow: inset 0px 0px 15px gray;
+	position: relative;
+	top: 0;
+	left: 0;
+	display: none;
+}
+
+#gameTestContainer{
+	height: 480px;
+	width: 640px;
+	border: 1px solid black;
+}
+
+#outputArea{
+	height: 90%;
+	width: 100%;
+}
+
+#inputArea{
+	height: 10%;
+	width: 100%;
+}
+
+#loginArea{
+	position: absolute;
+	top: -40px;
+	left: 5%;
+}
+
+#loginButton{
+    background: #000099; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(top, #000099 0%, #0000cc 100%); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(top, #000099 0%, #0000cc 100%); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(top, #000099 0%, #0000cc 100%); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom, #000099 0%, #0000cc 100%); /* Standard syntax (must be last) */
+    color: white;
+    width: 80px;
+    height: 30px;
+    border: 0;
+    box-shadow: 1px 1px 3px black;
+    position: relative;
+    top: 0;
+}
+
+#loginButton:hover{
+	box-shadow: 3px 3px 10px black;
+    top: 2px;
+	background: #0000cc; /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(top, #0000cc 0%, #000099 100%); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(top, #0000cc 0%, #000099 100%); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(top, #0000cc 0%, #000099 100%); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom, #0000cc 0%, #000099 100%); /* Standard syntax (must be last) */
+	cursor: pointer;
+}
+
+#signupButton{
+	background: #992600; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(top, #992600 0%, #cc3300 100%); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(top, #992600 0%, #cc3300 100%); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(top, #992600 0%, #cc3300 100%); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom, #992600 0%, #cc3300 100%); /* Standard syntax (must be last) */
+    color: white;
+    width: 80px;
+    height: 30px;
+    border: 0;
+    box-shadow: 1px 1px 3px black;
+    position: relative;
+    top: 0;
+    left: 10px;
+}
+
+#signupButton:hover{
+	box-shadow: 3px 3px 10px black;
+    top: 2px;
+	background: #cc3300; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(top, #cc3300 0%, #992600 100%); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(top, #cc3300 0%, #992600 100%); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(top, #cc3300 0%, #992600 100%); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom, #cc3300 0%, #992600 100%); /* Standard syntax (must be last) */
+	cursor: pointer;
+}
+
+li{
+	cursor: pointer;
+	list-style: none;
+}
+
+
+#dungeonManagerPane{
+	height: 100%;
+	width: 30%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: inline-block;
+}
+
+#roomOrganizer{
+	display: none;
+}
+
+#dungeonDetailsPane{
+	height: 100%;
+	width: 68%;
+	position: absolute;
+	top: 0;
+	left: 32%;
+	display: inline-block;
+}
+
+#roomCreator{
+	display: none;
+}
+
+#objectCreator{
+	display: none;
+}
+
+.objectManager{
+	display: none;
+}
+
+#roomEditor{
+	display: none;
+}
+
+#objectEditor{
+	display: none;
+}
+
+.gameLoadListItem{
+	height: 20px;
+	width: 100%;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	background-color: gray;
+	color: black;
+	border-bottom: 1px solid white;
+	cursor: pointer;
+	text-align: center;
+}
+
+.gameLoadListItem:hover{
+	background-color: black;
+	color: white;
+}
+
+#dungeonDetails{
+	display: none;
+}
+
+.tier2TimerDetails{
+	display: none;
+}
+
+#playerEditor{
+	display: none;
+}
+
+#playerTotalHealthInputContainer{
+	display: none;
+}
+#playerTotalStaminaInputContainer{
+	display: none;
+}
+#playerTotalMagicInputContainer{
+	display: none;
+}
+
+#playerAdvancedSettings{
+	display: none;
+}
+
+#timerCreator{
+	display: none;
+}
+
+/*Copied stuff from the internet to create basic help tip*/
+
+/*Thank you http://tutorialzine.com/2014/07/css-inline-help-tips/*/
+.help-tip{
+	position: relative;
+	top: -50px;
+	display: inline-block;
+	text-align: center;
+	background-color: #BCDBEA;
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
+	font-size: 14px;
+	line-height: 26px;
+	cursor: default;
+}
+
+.help-tip:before{
+	content:'?';
+	font-weight: bold;
+	color:#fff;
+}
+
+.help-tip:hover p{
+	display:block;
+	transform-origin: 100% 0%;
+
+	-webkit-animation: fadeIn 0.3s ease-in-out;
+	animation: fadeIn 0.3s ease-in-out;
+
+}
+
+.help-tip p{	/* The tooltip */
+	display: none;
+	text-align: left;
+	background-color: #1E2021;
+	padding: 20px;
+	width: 300px;
+	position: absolute;
+	border-radius: 3px;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+	right: -4px;
+	color: #FFF;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.help-tip p:before{ /* The pointer of the tooltip */
+	position: absolute;
+	content: '';
+	width:0;
+	height: 0;
+	border:6px solid transparent;
+	border-bottom-color:#1E2021;
+	right:10px;
+	top:-12px;
+}
+
+.help-tip p:after{ /* Prevents the tooltip from being hidden */
+	width:100%;
+	height:40px;
+	content:'';
+	position: absolute;
+	top:-40px;
+	left:0;
+}
+
+/* CSS animation */
+
+@-webkit-keyframes fadeIn {
+	0% { 
+		opacity:0; 
+		transform: scale(0.6);
+	}
+
+	100% {
+		opacity:100%;
+		transform: scale(1);
+	}
+}
+
+@keyframes fadeIn {
+	0% { opacity:0; }
+	100% { opacity:100%; }
+}

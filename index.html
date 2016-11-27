@@ -1,9 +1,366 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Untold-Tales</title>
-    <script src = "master.js"></script>
-  </head>
-  <body>
-    
-  </body>
+	<head>
+		<title>Untold Tales - Text Adventure Creator</title>
+		<link rel = "stylesheet" href = "css/main.css" type = "text/css"/>
+		<script src = "js/player_class.js"></script>
+		<script src = "js/dungeon_class.js"></script>
+		<script src = "js/room_class.js"></script>
+		<script src = "js/object_class.js"></script>
+		<script src = "js/timer_class.js"></script>
+		<script src = "js/init.js"></script>
+	</head>
+	
+	<body onload = "isLoggedIn()">
+		<div id = "heading">
+			<h2>Untold Tales</h2>
+			<h4>Text Adventure Creator</h4>
+		</div>
+		<div id = "options">
+			<div id = "saveButton">
+				<input type = "button" onclick = "saveDungeon()" value = "Save"></input>
+				<form id = "saveDungeonForm" action = "php/saveDungeon.php" method = "POST">
+					<input type = "hidden" value = "" name = "saveDungeonD" id = "saveDungeonData"></input>
+					<input type = "hidden" value = "" name = "saveDungeonN" id = "saveDungeonName"></input>
+				</form>
+			</div>
+			<div id = "runButton">
+				<input type = "button" onclick = "runGame()" value = "Run Game"></input>
+			</div>
+			<div id = "devButton">
+				<input type = "button" onclick = "devGame()" value = "Go Back"></input>
+			</div>
+			<div id = "loginArea">
+				<span id = "greeting"></span>
+				<div id = "loginButtons">
+					<a href = "http://toymakersdev.com/login.html"><input type = "button" id = "loginButton" value = "Login"></a>
+                    <a href = "http://toymakersdev.com/login.html?register=1"><input type = "button" id = "signupButton" value = "Sign Up"></a>
+				</div>
+			</div>
+		</div>
+		<div id = "workspace">
+			<div id = "startActivity">
+				<div id = "createNewButton" class = "startButton" onmousedown = "createNew()">
+					<h1 id = "createNewIcon" class = "startIcons">+</h1><br /><h3 class = "startIconText">Create</h3>
+				</div>
+				<div id = "loadGameButton" class = "startButton">
+					<h1 id = "loadGameButton" class = "startIcons" onclick = "loadGames()">{}</h1><br /><h3 class = "startIconText">Load</h3>
+				</div>
+				<div id = "createNewProjectForm">
+					<table id = "createProjectTable">
+						<tr>
+							<td>
+								<span>Adventure Name</span><br />
+								<input type = "text" placeholder = "Adventure Name" id = "adventureName"></input>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span>Author</span><br />
+								<input type = "text" placeholder = "Author" id = "authorName"></input>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<br />
+								<input style = "font-size: 16px; color: rgb(140, 140, 140); cursor: pointer;" type = "button" value = "Start Adventure" onmousedown = "createDungeon()"></input>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id = "projectLoadDisplay">
+					
+				</div>
+			</div>
+			<div id = "builderActivity">
+				<div id = "dungeonManagerPane">
+					<ul>
+						<li>
+							<h5 onmousedown = "toggleRoomOrganizer()">Dungeon</h5>
+							<ul id = "roomOrganizer">
+								<li onclick = "toggleRoomCreator()"><p>+ Add Room</p></li>
+							</ul>
+						</li>
+						<li>
+							<h5 onmousedown = "togglePlayerDetails()">Player</h5>
+						</li>
+					</ul>
+				</div>
+				<div id = "dungeonDetailsPane">
+				
+					<div id = "dungeonDetails">
+						<table>
+							<tr>
+								<td>
+									<span>Adventure Name</span><br />
+									<input type = "text" placeholder = "Adventure Name" id = "adventureNameEdit" onchange = "updateDungeonDetails(1)"></input>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span>Author</span><br />
+									<input type = "text" placeholder = "Author" id = "authorEdit" onchange = "updateDungeonDetails(2)"></input>
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div id = "roomCreator">
+						<table>
+							<tr>
+								<td>
+									<span>Room Name</span><br />
+									<input type = "text" placeholder = "Room Name" id = "roomName"></input>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span>Room Description</span><br />
+									<textarea placeholder = "Room Description" id = "roomDescription" rows = "5" cols = "50"></textarea>
+									<div class = "help-tip">
+										<p>This is the description that will show up when a user enters the room in game, or when they look around.</p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type = "button" value = "Generate Room" id = "generateRoomButton" onclick = "createRoom()"></input>
+									<input type = "button" value = "Cancel" id = "cancelRoomButton" onclick = "cancelCreateRoom()"></input>
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div id = "roomEditor">
+						<table>
+							<tr>
+								<td>
+									<span>Room Name</span><br />
+									<input type = "text" placeholder = "Room Name" id = "roomNameEdit" onblur = "updateRoomName(this.value)"></input>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span>Room Description</span><br />
+									<textarea placeholder = "Room Description" id = "roomDescriptionEdit" rows = "5" cols = "50" onblur = "updateRoomDescription(this.value)"></textarea>
+									<div class = "help-tip">
+										<p>This is the description that will show up when a user enters the room in game, or when they look around.</p>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span>Show default visible object text: </span>
+									<select id = "visibleObjectTextStatus" onchange = "setVisibleObjectTextStatus()">
+										<option value = "true" selected>True</option>
+										<option value = "false">False</option>
+									</select><br />
+									<br /><br />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type = "button" value = "Set Room As Player Start" onclick = "setPlayerStart()"></input>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span>Room Navigation</span><br />
+									<select id = "addDirectionSelect">
+										<option name = "Default">Select Direction</option>
+										<option name = "north">North</option>
+										<option name = "east">East</option>
+										<option name = "south">South</option>
+										<option name = "west">West</option>
+									</select>
+									<input type = "button" value = "Add Direction" onclick = "addDirection()"></input>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div id = "currentDirections">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div id = "interactionWords">
+										Default words for rooms are currently:  'look', 'go'
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div id = "objectCreator">
+						<table>
+							<tr>
+								<td>
+									<span>Object Name</span><br />
+									<input type = "text" placeholder = "Object Name" id = "objectName"></input>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span>Object Description</span><br />
+									<textarea placeholder = "Object Description" id = "objectDescription" rows = "5" cols = "50"></textarea>
+									<div class = "help-tip">
+										<p>This is the description that will show up when a user looks at or interacts with the object in game.</p>
+									</div>
+								</td>
+							</tr>
+							<!--<tr>
+								<td>
+									<input type = "checkbox" id = "objectIsContainer">Is Container?</input>
+									<div class = "help-tip" style = "top: 0">
+										<p>Is the object a container that holds more items? i.e. Chest, Backpack, Dresser ect</p>
+									</div>
+								</td>
+							</tr>-->
+							<tr>
+								<td>
+									<input type = "button" value = "Create Object" id = "createObjectButton" onclick = "createObject()"></input>
+									<input type = "button" value = "Cancel" id = "cancelObjectButton" onclick = "cancelCreateObject()"></input>
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div id = "objectEditor">
+						<tr>
+							<td>
+								<span>Object Name</span><br />
+								<input type = "text" placeholder = "Object Name" id = "objectNameEdit" onblur = "updateObjectName(this.value)"></input>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<br /><span>Object Description</span><br />
+								<textarea placeholder = "Object Description" id = "objectDescriptionEdit" rows = "5" cols = "50" onblur = "updateObjectDescription(this.value)"></textarea>
+								<div class = "help-tip">
+									<p>This is the description that will show up when a user looks at or interacts with the object in game.</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div id = "verbsList">
+									
+								</div>
+							</td>
+						</tr>
+					</div>
+					
+					<div id = "playerEditor">
+						<span>Player Has Inventory: </span>
+						<select id = "inventoryEnabledStatus" onchange = "player_o.setInventoryEnabledStatus()">
+							<option value = "true" selected>True</option>
+							<option value = "false">False</option>
+						</select><br />
+						<span><input type = "button" id = "advancedSettingsButton" onclick = "togglePlayerAdvancedDetails()" value = "+"></input>Advanced</span>
+						<div id = "playerAdvancedSettings">
+							<span>Player Has Health: </span>
+							<select id = "healthEnabledStatus" onchange = "player_o.setHealthEnabledStatus()">
+								<option value = "true">True</option>
+								<option value = "false" selected>False</option>
+							</select><br />
+							<div id = "playerTotalHealthInputContainer">
+								<span>Player Total Health</span>
+								<input type = "number" placeholder = "Total Health" id = "playerTotalHealthInput" onchange = "player_o.updatePlayerTotalHealth()"></input>
+							</div><br />
+							<span>Player Has Stamina: </span>
+							<select id = "staminaEnabledStatus" onchange = "player_o.setStaminaEnabledStatus()">
+								<option value = "true">True</option>
+								<option value = "false" selected>False</option>
+							</select><br />
+							<div id = "playerTotalStaminaInputContainer">
+								<span>Player Total Stamina</span>
+								<input type = "number" placeholder = "Total Stamina" id = "playerTotalStaminaInput" onchange = "player_o.updatePlayerTotalStamina()"></input>
+							</div><br />
+							<span>Player Has Magic: </span>
+							<select id = "magicEnabledStatus" onchange = "player_o.setMagicEnabledStatus()">
+								<option value = "true">True</option>
+								<option value = "false" selected>False</option>
+							</select><br />
+							<div id = "playerTotalMagicInputContainer">
+								<span>Player Total Magic</span>
+								<input type = "number" placeholder = "Total Magic" id = "playerTotalMagicInput" onchange = "player_o.updatePlayerTotalMagic()"></input>
+							</div><br />
+						</div>
+					</div>
+					
+					<div id = "timerCreator">
+						<span>Time Interval:</span><br />
+						<input type = "number" placeholder = "Time Interval" id = "timerIntervalCreate"></input><br />
+						
+						<span>Function:</span><br />
+						<select id = "timerFunctionCreate" onchange = "changeTimerFunctionTier2()">
+							<option value = "">Select Function...</option>
+							<option value = "output">Output Message</option>
+							<option value = "player">Player Interaction</option>
+							<option value = "object">Object Interaction</option>
+							<option value = "room">Room Interaction</option>
+						</select>
+						<div id = "timerFunctionTier2">
+							<div id = "timerFunctionOutputDetails" class = "tier2TimerDetails">
+								<span>Timer Function Output Message:</span><br />
+								<input type = "text" placeholder = "Output Message" id = "tFuncOutputMessInput"></input><br />
+							</div>
+							<div id = "timerFunctionPlayerDetails" class = "tier2TimerDetails">
+								<span>Change Player Health:</span><br />
+								<input type = "number" value = "0" id = "changePlayerHealthFunctionValue" onkeydown = "checkChangeValues(this.id)" onchange = "checkChangeValues(this.id)"></input><br /><br />
+								<span>Change Player Magic:</span><br />
+								<input type = "number" value = "0" id = "changePlayerMagicFunctionValue" onkeydown = "checkChangeValues(this.id)" onchange = "checkChangeValues(this.id)"></input><br /><br />
+								<span>Change Player Stamina:</span><br />
+								<input type = "number" value = "0" id = "changePlayerStaminaFunctionValue" onkeydown = "checkChangeValues(this.id)" onchange = "checkChangeValues(this.id)"></input><br /><br />
+							</div>
+							<div id = "timerFunctionObjectDetails" class = "tier2TimerDetails">
+								<select id = "objectTimerFunction" onchange = "changeObjectTimerFunctionDetails()">
+									<option value = "">Select Object Effect...</option>
+									<option value = "addObject">Add Object to Player Inventory</option>
+									<option value = "destroyObject">Destroy Object</option>
+									<option value = "cloneObject">Clone Object</option>
+								</select>
+								<select id = "objectSelector">
+									
+								</select>
+							</div>
+							<div id = "timerFunctionRoomDetails" class = "tier2TimerDetails">
+								<select id = "roomTimerFunction" onchange = "changeRoomFunction()">
+									<option value = "">Select Room Effect...</option>
+									<option value = "directionChange">Player to new room</option>
+								</select>
+								<select id = "directionChangeDestinationSelect">
+									
+								</select>
+							</div>
+						</div>
+						
+						<span>Repeat Limit:</span><br />
+						<input type = "number" placeholder = "Repeat Limit" id = "timerRepeatCreate"></input><br />
+						
+						<br />
+						<input type = "button" value = "Create" onclick = "createTimer()"></input>
+						<input type = "button" value = "Cancel" onclick = "cancelCreateTimer()"></input>
+					</div>
+					
+					<div id = "timerEditor">
+						
+					</div>
+					
+				</div>
+			</div>
+			<div id = "runActivity">
+				<div id = "gameTestContainer">
+					<div id = "outputArea">
+						
+					</div>
+					<div id = "inputArea">
+						<input type = "text" placeholder = "Action:" id = "untoldInput" onkeydown = "filter(event)"></input>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
