@@ -410,8 +410,8 @@ var changeTimerFunctionTier2 = function(x){
 	}
 }
 
-var checkChangeValues = function(w, x){
-	if(x){
+var checkChangeValues = function(w, q){
+	if(q){
 		var x = document.getElementById("changePlayerHealthFunctionValueEdit").value;
 		var y = document.getElementById("changePlayerMagicFunctionValueEdit").value;
 		var z = document.getElementById("changePlayerStaminaFunctionValueEdit").value;
@@ -427,13 +427,13 @@ var checkChangeValues = function(w, x){
 		}
 		if(u > 1){
 			if(w != "changePlayerHealthFunctionValueEdit"){
-				document.getElementById("changePlayerHealthFunctionValue").value = "0";
+				document.getElementById("changePlayerHealthFunctionValueEdit").value = "0";
 			}
 			if(w != "changePlayerMagicFunctionValueEdit"){
-				document.getElementById("changePlayerMagicFunctionValue").value = "0";
+				document.getElementById("changePlayerMagicFunctionValueEdit").value = "0";
 			}
 			if(w != "changePlayerStaminaFunctionValueEdit"){
-				document.getElementById("changePlayerStaminaFunctionValue").value = "0";
+				document.getElementById("changePlayerStaminaFunctionValueEdit").value = "0";
 			}
 		}
 	}
@@ -474,15 +474,15 @@ var changeObjectTimerFunctionDetails = function(y){
 			break;
 			default:
 				//document.getElementById("").style.display = "block";
-				document.getElementById("objectSelector").innerHTML = "";
+				document.getElementById("objectSelectorEdit").innerHTML = "";
 				if(dungeon.rooms[getRoomIndex()].objects.length < 1){
-					document.getElementById("objectSelector").innerHTML = "<option value = ''>No objects in room</option>";
+					document.getElementById("objectSelectorEdit").innerHTML = "<option value = ''>No objects in room</option>";
 				}
 				else{
-					document.getElementById("objectSelector").innerHTML = "<option value = ''>Select an object</option>";
+					document.getElementById("objectSelectorEdit").innerHTML = "<option value = ''>Select an object</option>";
 				}
 				for(var i = 0; i < dungeon.rooms[getRoomIndex()].objects.length; i++){
-					document.getElementById("objectSelector").innerHTML += "<option value = '" + dungeon.rooms[getRoomIndex()].objects[i].zid + "'>" + dungeon.rooms[getRoomIndex()].objects[i].name + "</option>";
+					document.getElementById("objectSelectorEdit").innerHTML += "<option value = '" + dungeon.rooms[getRoomIndex()].objects[i].zid + "'>" + dungeon.rooms[getRoomIndex()].objects[i].name + "</option>";
 				}
 			break;
 		}

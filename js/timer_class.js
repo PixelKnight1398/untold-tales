@@ -166,15 +166,15 @@ var saveTimerChanges = function(){
 								dungeon.rooms[getRoomIndex()].timers[i].outputMessage = y;
 							break;
 							case "player":
-								dungeon.rooms[getRoomIndex()].timers[i].changePlayer = x[0];
-								dungeon.rooms[getRoomIndex()].timers[i].changeValue = x[1];
+								dungeon.rooms[getRoomIndex()].timers[i].changePlayer = y[0];
+								dungeon.rooms[getRoomIndex()].timers[i].changeValue = y[1];
 							break;
 							case "object":
-								dungeon.rooms[getRoomIndex()].timers[i].changeObject = x[0];
-								dungeon.rooms[getRoomIndex()].timers[i].objectId = x[1];
+								dungeon.rooms[getRoomIndex()].timers[i].changeObject = y[0];
+								dungeon.rooms[getRoomIndex()].timers[i].objectId = y[1];
 							break;
 							case "room":
-								dungeon.rooms[getRoomIndex()].timers[i].direction = x;
+								dungeon.rooms[getRoomIndex()].timers[i].direction = y;
 							break;
 							default:
 								//do nothing
@@ -184,9 +184,6 @@ var saveTimerChanges = function(){
 						dungeon.rooms[getRoomIndex()].timers[i].timerLimit = w;
 					}
 				}
-				dungeon.rooms[getRoomIndex()].timers.push(new gameTimer(x, y, parseInt(z), parseInt(w)));
-				document.getElementById("timerCreator").style.display = "none";
-				toggleRoomEditor();
 				rebuildManager();
 			}
 			else{
