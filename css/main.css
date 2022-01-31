@@ -161,6 +161,7 @@ h4{
 #outputArea{
 	height: 90%;
 	width: 100%;
+	overflow-y: scroll;
 }
 
 #inputArea{
@@ -326,6 +327,14 @@ li{
 	display: none;
 }
 
+#npcCreator{
+	display: none;
+}
+
+#npcEditor{
+	display: none;
+}
+
 /*Copied stuff from the internet to create basic help tip*/
 
 /*Thank you http://tutorialzine.com/2014/07/css-inline-help-tips/*/
@@ -396,8 +405,8 @@ li{
 /* CSS animation */
 
 @-webkit-keyframes fadeIn {
-	0% { 
-		opacity:0; 
+	0% {
+		opacity:0;
 		transform: scale(0.6);
 	}
 
